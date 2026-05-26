@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ADI Construções, LDA</title>
+
+    <style>
+        :root {
+    --primary: #0a2d6b;
+    --secondary: #ffcc00;
+    --dark: #0b0b0b;
+    --gray: #f2f2f2;
+    --light: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: var(--light);
+    color: var(--dark);
+    overflow-x: hidden;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 18px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+
+    background: rgba(10, 45, 107, 0.15);
+    backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+
+    transition: 0.4s ease;
+}
+
+header.scrolled {
+    background: rgba(5, 18, 45, 0.96);
+    padding: 14px 7%;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+}
+
+header img {
+    height: 58px;
+    transition: 0.3s;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    position: relative;
+    transition: 0.3s;
+}
+
+header nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 0%;
+    height: 2px;
+    background: var(--secondary);
+    transition: 0.3s;
+}
+
+header nav a:hover::after {
+    width: 100%;
+}
+
+header nav a:hover {
+    color: var(--secondary);
+}
+
+.nav-btn {
+    background: var(--secondary);
+    color: #000 !important;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.nav-btn:hover {
+    transform: translateY(-3px);
+}
+
+.nav-btn::after {
+    display: none;
+}
+
+/* HERO SLIDER */
+
+.hero-slider {
+    position: relative;
+    margin-top: 90px;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slide::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(2,8,20,0.92),
+            rgba(5,18,45,0.72),
+            rgba(10,45,107,0.45)
+        );
+
+    z-index: 1;
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 8%;
+    transform: translateY(-50%);
+    color: white;
+    z-index: 3;
+    max-width: 650px;
+    animation: fadeUp 1s ease;
+}
+
+.hero-content span {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 10px 18px;
+    border-radius: 40px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.hero-content h1 {
+    font-size: 64px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+
+.hero-content p {
+    font-size: 20px;
+    line-height: 1.7;
+    margin-bottom: 35px;
+    color: rgba(255,255,255,0.9);
+}
+
+.hero-content span,
+.hero-content h1,
+.hero-content p {
+    transition: 0.4s ease;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    background: var(--secondary);
+    color: #000;
+    padding: 16px 34px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+}
+
+.btn-outline {
+    border: 2px solid rgba(255,255,255,0.4);
+    color: white;
+    padding: 16px 34px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    backdrop-filter: blur(5px);
+}
+
+.btn-outline:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.slider-dots {
+    position: absolute;
+    bottom: 35px;
+    left: 8%;
+    display: flex;
+    gap: 10px;
+    z-index: 5;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dot.active {
+    background: var(--secondary);
+    transform: scale(1.2);
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section {
+    padding: 70px 40px;
+}
+
+.section-title {
+    font-size: 36px;
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.services {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.service-card {
+    position: relative;
+    background: white;
+    padding: 40px 35px;
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(0,0,0,0.05);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.05);
+
+    transition: 0.4s ease;
+}
+
+.service-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 5px;
+
+    background: linear-gradient(
+        90deg,
+        var(--primary),
+        var(--secondary)
+    );
+}
+
+.service-card:hover {
+    transform: translateY(-12px);
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,0.12);
+}
+
+.service-icon {
+    width: 75px;
+    height: 75px;
+
+    border-radius: 18px;
+
+    background: rgba(10,45,107,0.08);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 25px;
+
+    font-size: 34px;
+}
+
+.service-card h3 {
+    font-size: 26px;
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+.service-card p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #555;
+}
+
+.about {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.about img {
+    width: 50%;
+    border-radius: 10px;
+}
+
+.about div {
+    width: 50%;
+}
+
+footer {
+    background: var(--primary);
+    color: var(--light);
+    padding: 40px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+@media(max-width: 768px) {
+
+    header {
+        padding: 15px 5%;
+    }
+
+    header nav {
+        gap: 15px;
+    }
+
+    header nav a {
+        font-size: 14px;
+    }
+
+    .hero-content {
+        left: 6%;
+        right: 6%;
+        max-width: 100%;
+    }
+
+    .hero-content h1 {
+        font-size: 42px;
+    }
+
+    .hero-content p {
+        font-size: 17px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .about {
+        flex-direction: column;
+    }
+
+    .about img,
+    .about div {
+        width: 100%;
+    }
+
+    .section {
+        padding: 60px 20px;
+    }
+}
+
+.stats-section {
+    background:
+        linear-gradient(
+            rgba(5,18,45,0.92),
+            rgba(10,45,107,0.92)
+        ),
+        url('hero1.jpg');
+
+    background-size: cover;
+    background-position: center;
+
+    padding: 90px 7%;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 30px;
+
+    text-align: center;
+
+    color: white;
+}
+
+.stat-box {
+    padding: 40px 20px;
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,0.04);
+
+    backdrop-filter: blur(10px);
+
+    transition: 0.4s ease;
+}
+
+.stat-box:hover {
+    transform: translateY(-10px);
+
+    background: rgba(255,255,255,0.08);
+}
+
+.stat-box h2 {
+    font-size: 58px;
+    color: var(--secondary);
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+
+.stat-box p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.85);
+}
+
+.projects-section {
+    background: #f8f9fc;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+    gap: 30px;
+}
+
+.project-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 22px;
+    height: 380px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.08);
+
+    transition: 0.4s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+}
+
+.project-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    transition: 0.6s ease;
+}
+
+.project-card:hover img {
+    transform: scale(1.08);
+}
+
+.project-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        to top,
+        rgba(5,18,45,0.95),
+        rgba(5,18,45,0.15)
+    );
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    padding: 30px;
+
+    color: white;
+
+    opacity: 0;
+
+    transition: 0.4s ease;
+}
+
+.project-card:hover .project-overlay {
+    opacity: 1;
+}
+
+.project-overlay h3 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.project-overlay p {
+    color: rgba(255,255,255,0.85);
+    line-height: 1.6;
+}
+
+.testimonials-section {
+    background:
+        linear-gradient(
+            to bottom,
+            #ffffff,
+            #f5f7fb
+        );
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
+    gap: 30px;
+}
+
+.testimonial-card {
+    position: relative;
+
+    background: white;
+
+    padding: 40px 35px;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.06);
+
+    transition: 0.4s ease;
+
+    overflow: hidden;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px);
+
+    box-shadow:
+        0 25px 55px rgba(0,0,0,0.12);
+}
+
+.quote-icon {
+    font-size: 70px;
+    color: rgba(10,45,107,0.08);
+
+    position: absolute;
+    top: 10px;
+    right: 25px;
+
+    font-weight: bold;
+}
+
+.testimonial-card p {
+    font-size: 17px;
+    line-height: 1.9;
+    color: #555;
+
+    margin-bottom: 30px;
+
+    position: relative;
+    z-index: 2;
+}
+
+.client-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.client-info img {
+    width: 65px;
+    height: 65px;
+
+    border-radius: 50%;
+    object-fit: cover;
+
+    border: 3px solid var(--secondary);
+}
+
+.client-info h4 {
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+
+.client-info span {
+    color: #777;
+    font-size: 14px;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(80px);
+    transition:
+        opacity 1s ease,
+        transform 1s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.menu-toggle {
+    display: none;
+
+    font-size: 32px;
+    color: white;
+
+    cursor: pointer;
+
+    z-index: 1001;
+}
+
+@media(max-width: 768px) {
+
+    .menu-toggle {
+        display: block;
+    }
+
+    header nav {
+
+        position: fixed;
+
+        top: 0;
+        right: -100%;
+
+        width: 280px;
+        height: 100vh;
+
+        background: rgba(5,18,45,0.98);
+
+        backdrop-filter: blur(12px);
+
+        flex-direction: column;
+
+        justify-content: center;
+        align-items: center;
+
+        gap: 35px;
+
+        transition: 0.4s ease;
+    }
+
+    header nav.active {
+        right: 0;
+    }
+
+    header nav a {
+        font-size: 18px;
+    }
+
+}
+
+.main-footer {
+    background:
+        linear-gradient(
+            to bottom,
+            #07152f,
+            #040b18
+        );
+
+    color: white;
+
+    margin-top: 80px;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+
+    gap: 40px;
+
+    padding: 80px 7%;
+}
+
+.footer-about img {
+    width: 180px;
+    margin-bottom: 20px;
+}
+
+.footer-about p {
+    color: rgba(255,255,255,0.75);
+    line-height: 1.8;
+}
+
+.footer-links h3,
+.footer-services h3,
+.footer-contact h3 {
+    margin-bottom: 25px;
+    font-size: 22px;
+    color: var(--secondary);
+}
+
+.footer-links a {
+    display: block;
+
+    color: rgba(255,255,255,0.75);
+
+    margin-bottom: 14px;
+
+    transition: 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--secondary);
+
+    transform: translateX(5px);
+}
+
+.footer-services p,
+.footer-contact p {
+    color: rgba(255,255,255,0.75);
+
+    margin-bottom: 14px;
+
+    line-height: 1.7;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+
+    text-align: center;
+
+    padding: 25px;
+
+    color: rgba(255,255,255,0.6);
+
+    font-size: 14px;
+}
+
+.hero-slider::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 700px;
+    height: 700px;
+
+    background:
+        radial-gradient(
+            rgba(255,204,0,0.18),
+            transparent 70%
+        );
+
+    top: -200px;
+    right: -150px;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+.service-card,
+.project-card,
+.testimonial-card,
+.stat-box {
+
+    position: relative;
+
+    isolation: isolate;
+}
+
+.service-card::after,
+.project-card::after,
+.testimonial-card::after,
+.stat-box::after {
+
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,255,255,0),
+            rgba(0,0,0,0.03)
+        );
+
+    opacity: 0;
+
+    transition: 0.4s ease;
+
+    z-index: -1;
+}
+
+.service-card:hover::after,
+.project-card:hover::after,
+.testimonial-card:hover::after,
+.stat-box:hover::after {
+
+    opacity: 1;
+}
+
+.service-card:hover,
+.project-card:hover,
+.testimonial-card:hover,
+.stat-box:hover {
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.18);
+}
+
+.whatsapp-float {
+
+    position: fixed;
+
+    right: 25px;
+    bottom: 25px;
+
+    width: 68px;
+    height: 68px;
+
+    border-radius: 50%;
+
+    background: #25D366;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 10px 30px rgba(37,211,102,0.45);
+
+    z-index: 9999;
+
+    transition: 0.4s ease;
+
+    animation: pulseWhatsapp 2s infinite;
+}
+
+.whatsapp-float:hover {
+
+    transform: translateY(-8px) scale(1.08);
+
+    box-shadow:
+        0 20px 40px rgba(37,211,102,0.6);
+}
+
+.whatsapp-float img {
+
+    width: 34px;
+    height: 34px;
+}
+
+@keyframes pulseWhatsapp {
+
+    0% {
+        box-shadow:
+            0 0 0 0 rgba(37,211,102,0.5);
+    }
+
+    70% {
+        box-shadow:
+            0 0 0 18px rgba(37,211,102,0);
+    }
+
+    100% {
+        box-shadow:
+            0 0 0 0 rgba(37,211,102,0);
+    }
+}
+
+.about {
+    display: grid;
+
+    grid-template-columns: 1.1fr 1fr;
+
+    gap: 80px;
+
+    align-items: center;
+}
+
+.about-image {
+    position: relative;
+}
+
+.about-image img {
+    width: 100%;
+    height: 650px;
+
+    object-fit: cover;
+
+    border-radius: 28px;
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.15);
+}
+
+.experience-badge {
+
+    position: absolute;
+
+    bottom: -25px;
+    right: -25px;
+
+    background: var(--secondary);
+
+    color: #000;
+
+    padding: 25px;
+
+    border-radius: 24px;
+
+    min-width: 180px;
+
+    text-align: center;
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,0.18);
+}
+
+.experience-badge h3 {
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.experience-badge p {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.about-mini-title {
+    display: inline-block;
+
+    color: var(--secondary);
+
+    background: rgba(255,204,0,0.12);
+
+    padding: 10px 18px;
+
+    border-radius: 40px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    margin-bottom: 20px;
+
+    letter-spacing: 1px;
+}
+
+.about-text {
+    color: #555;
+
+    line-height: 1.9;
+
+    margin-bottom: 22px;
+
+    font-size: 17px;
+}
+
+.about-features {
+
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+
+    gap: 18px;
+
+    margin: 35px 0;
+}
+
+.about-feature {
+
+    background: white;
+
+    padding: 18px 20px;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.05);
+
+    font-weight: 600;
+}
+
+@media(max-width: 768px) {
+
+    .experience-badge {
+
+        position: relative;
+
+        right: auto;
+        bottom: auto;
+
+        margin-top: 20px;
+    }
+
+    .about-features {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media(max-width: 992px) {
+
+    .about {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .about-image img {
+        height: 500px;
+    }
+
+    .about-content {
+        max-width: 100%;
+    }
+
+    .about-content .section-title {
+        font-size: 40px;
+    }
+
+    .experience-badge {
+
+        position: relative;
+
+        right: auto;
+        bottom: auto;
+
+        margin-top: 20px;
+    }
+
+}
+
+@media(max-width: 768px) {
+
+    .about-image img {
+        height: 380px;
+    }
+
+    .about-features {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+.about-content {
+    max-width: 650px;
+}
+
+.about-content .section-title {
+    font-size: 52px;
+    line-height: 1.15;
+}
+    </style>
+</head>
+
+<body>
+
+<header>
+    <img src="https://i.imgur.com/p6bFk3E.jpeg" alt="ADI Construções Logo">
+
+    <nav>
+        <a href="#hero">Início</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#contacto" class="nav-btn">Orçamento</a>
+    </nav>
+    <div class="menu-toggle">
+    ☰
+</div>
+</header>
+
+<section class="hero-slider" id="hero">
+
+    <!-- FOTO PRINCIPAL -->
+    <div class="slide active">
+        <img src="https://i.imgur.com/p6bFk3E.jpeg" alt="Construção Civil">
+    </div>
+
+    <!-- FOTO PROFISSIONAL 2 -->
+    <div class="slide">
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1600&auto=format&fit=crop" alt="Projeto Profissional">
+    </div>
+
+    <!-- FOTO PROFISSIONAL 3 -->
+    <div class="slide">
+        <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=1600&auto=format&fit=crop" alt="Equipa de Construção">
+    </div>
+
+    <div class="hero-content">
+
+        <span id="heroTag">ADI Construções, LDA</span>
+
+        <h1 id="heroTitle">
+            Construindo Espaços com Excelência e Confiança
+        </h1>
+
+        <p id="heroText">
+            Soluções modernas em construção civil, remodelações,
+            reabilitação e acabamentos profissionais para transformar
+            o seu projeto em realidade.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#contacto" class="btn-primary">
+                Solicitar Orçamento
+            </a>
+
+            <a href="#servicos" class="btn-outline">
+                Ver Serviços
+            </a>
+        </div>
+
+    </div>
+
+    <div class="slider-dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+</section>
+
+<section class="stats-section reveal">
+
+    <div class="stat-box">
+        <h2 class="counter" data-target="250">0</h2>
+        <p>Projetos Concluídos</p>
+    </div>
+
+    <div class="stat-box">
+        <h2 class="counter" data-target="15">0</h2>
+        <p>Anos de Experiência</p>
+    </div>
+
+    <div class="stat-box">
+        <h2 class="counter" data-target="98">0</h2>
+        <p>Clientes Satisfeitos</p>
+    </div>
+
+    <div class="stat-box">
+        <h2 class="counter" data-target="40">0</h2>
+        <p>Profissionais</p>
+    </div>
+
+</section>
+
+<section class="section reveal" id="servicos">
+
+    <h2 class="section-title">
+        Os Nossos Serviços
+    </h2>
+
+    <div class="services">
+
+        <div class="service-card">
+
+            <div class="service-icon">
+                🏗️
+            </div>
+
+            <h3>
+                Construção Civil
+            </h3>
+
+            <p>
+                Executamos projetos completos com alto padrão
+                de qualidade, segurança e eficiência desde
+                a fundação até à entrega final.
+            </p>
+
+        </div>
+
+        <div class="service-card">
+
+            <div class="service-icon">
+                🏠
+            </div>
+
+            <h3>
+                Remodelações
+            </h3>
+
+            <p>
+                Transformamos espaços antigos em ambientes
+                modernos, funcionais e visualmente sofisticados.
+            </p>
+
+        </div>
+
+        <div class="service-card">
+
+            <div class="service-icon">
+                🎨
+            </div>
+
+            <h3>
+                Acabamentos Premium
+            </h3>
+
+            <p>
+                Trabalhamos com acabamentos refinados,
+                pintura profissional, pavimentos e detalhes
+                de excelência.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="section projects-section reveal">
+
+    <h2 class="section-title">
+        Projetos Recentes
+    </h2>
+
+    <div class="projects-grid">
+
+        <div class="project-card">
+            <img src="https://i.imgur.com/GcGcSiO.jpeg" alt="Projeto 1">
+
+            <div class="project-overlay">
+                <h3>Construção Residencial</h3>
+                <p>Arquitetura moderna e acabamento premium.</p>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <img src="https://i.imgur.com/VpMA2sz.jpeg" alt="Projeto 2">
+
+            <div class="project-overlay">
+                <h3>Remodelação Completa</h3>
+                <p>Transformação elegante de espaços antigos.</p>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <img src="https://i.imgur.com/bkJDzWW.jpeg" alt="Projeto 3">
+
+            <div class="project-overlay">
+                <h3>Acabamentos Profissionais</h3>
+                <p>Detalhes sofisticados e materiais premium.</p>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <img src="https://i.imgur.com/xSyzbyQ.jpeg" alt="Projeto 4">
+
+            <div class="project-overlay">
+                <h3>Projeto Empresarial</h3>
+                <p>Espaços funcionais e modernos.</p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="section testimonials-section reveal">
+
+    <h2 class="section-title">
+        O Que Dizem os Nossos Clientes
+    </h2>
+
+    <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+
+            <div class="quote-icon">❝</div>
+
+            <p>
+                A ADI Construções superou completamente as nossas
+                expectativas. Profissionalismo, qualidade e entrega
+                impecável.
+            </p>
+
+            <div class="client-info">
+
+                <img src="https://i.imgur.com/4f4r9xX.jpeg" alt="Cliente">
+
+                <div>
+                    <h4>Carlos Manuel</h4>
+                    <span>Cliente Residencial</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="testimonial-card">
+
+            <div class="quote-icon">❝</div>
+
+            <p>
+                Trabalho extremamente organizado e moderno.
+                Recomendo totalmente para qualquer projeto
+                empresarial ou residencial.
+            </p>
+
+            <div class="client-info">
+
+                <img src="https://i.imgur.com/EcsKjEk.jpeg" alt="Cliente">
+
+                <div>
+                    <h4>Helena João</h4>
+                    <span>Empresária</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="testimonial-card">
+
+            <div class="quote-icon">❝</div>
+
+            <p>
+                Ficamos impressionados com os acabamentos e a
+                atenção aos detalhes. Serviço premium do início
+                ao fim.
+            </p>
+
+            <div class="client-info">
+
+                <img src="https://i.imgur.com/3v6lUKt.jpeg" alt="Cliente">
+
+                <div>
+                    <h4>Mateus Alberto</h4>
+                    <span>Cliente Comercial</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="section about reveal" id="sobre">
+
+    <div class="about-image">
+
+        <img src="https://i.imgur.com/B8mGgm6.jpg" alt="Equipa ADI Construções">
+
+        <div class="experience-badge">
+            <h3>15+</h3>
+            <p>Anos de Experiência</p>
+        </div>
+
+    </div>
+
+    <div class="about-content">
+
+        <span class="about-mini-title">
+            SOBRE A EMPRESA
+        </span>
+
+        <h2 class="section-title" style="text-align:left;">
+            Construindo com Qualidade,
+            Inovação e Confiança
+        </h2>
+
+        <p class="about-text">
+            A ADI Construções, LDA é especializada em construção civil,
+            remodelações, reabilitação e acabamentos premium,
+            oferecendo soluções modernas e eficientes para projetos
+            residenciais e empresariais.
+        </p>
+
+        <p class="about-text">
+            Trabalhamos com foco na excelência, cumprimento de prazos,
+            segurança e atenção aos detalhes para entregar resultados
+            acima das expectativas.
+        </p>
+
+        <div class="about-features">
+
+            <div class="about-feature">
+                ✔️ Equipa Especializada
+            </div>
+
+            <div class="about-feature">
+                ✔️ Materiais de Alta Qualidade
+            </div>
+
+            <div class="about-feature">
+                ✔️ Projetos Modernos
+            </div>
+
+            <div class="about-feature">
+                ✔️ Entrega Profissional
+            </div>
+
+        </div>
+
+        <a href="#contacto" class="btn-primary">
+            Solicitar Orçamento
+        </a>
+
+    </div>
+
+</section>
+
+<section class="section reveal" id="contacto">
+
+    <h2 class="section-title">Fale Connosco</h2>
+
+    <p style="text-align:center; margin-bottom:20px;">
+        Envie uma mensagem e retornaremos rapidamente.
+    </p>
+
+    <center>
+        <a href="https://wa.me/25884873742257" class="btn-primary">
+            Contactar via WhatsApp
+        </a>
+    </center>
+
+</section>
+
+<footer class="main-footer">
+
+    <div class="footer-container">
+
+        <div class="footer-about">
+
+            <img src="https://i.imgur.com/p6bFk3E.jpeg" alt="ADI Construções Logo">
+
+            <p>
+                Construindo projetos modernos com qualidade,
+                confiança e excelência em cada detalhe.
+            </p>
+
+        </div>
+
+        <div class="footer-links">
+
+            <h3>Links Rápidos</h3>
+
+            <a href="#hero">Início</a>
+            <a href="#servicos">Serviços</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#contacto">Contacto</a>
+
+        </div>
+
+        <div class="footer-services">
+
+            <h3>Serviços</h3>
+
+            <p>Construção Civil</p>
+            <p>Remodelações</p>
+            <p>Acabamentos Premium</p>
+            <p>Projetos Empresariais</p>
+
+        </div>
+
+        <div class="footer-contact">
+
+            <h3>Contacto</h3>
+
+            <p>📍 Gôndola / Bairro Bela Vista</p>
+            <p>📞 (+258) 84 873 742 257</p>
+            <p>✉️ contacto@adiconstrucoes.com</p>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2024 ADI Construções, LDA — Todos os direitos reservados.
+    </div>
+
+</footer>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+
+    const heroTag = document.getElementById('heroTag');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroText = document.getElementById('heroText');
+
+    const heroData = [
+        {
+            tag: 'ADI Construções, LDA',
+            title: 'Construindo Espaços com Excelência e Confiança',
+            text: 'Soluções modernas em construção civil, remodelações e acabamentos profissionais para transformar o seu projeto em realidade.'
+        },
+
+        {
+            tag: 'Projetos Profissionais',
+            title: 'Qualidade, Segurança e Acabamentos Modernos',
+            text: 'Executamos obras com alto padrão profissional, foco nos detalhes e compromisso com os prazos definidos.'
+        },
+
+        {
+            tag: 'Equipa Especializada',
+            title: 'Transformamos Ideias em Grandes Resultados',
+            text: 'Uma equipa preparada para construir, renovar e valorizar o seu espaço com máxima eficiência.'
+        }
+    ];
+
+    let current = 0;
+
+    function updateHeroContent(index) {
+
+        heroTag.style.opacity = 0;
+        heroTitle.style.opacity = 0;
+        heroText.style.opacity = 0;
+
+        setTimeout(() => {
+
+            heroTag.innerText = heroData[index].tag;
+            heroTitle.innerText = heroData[index].title;
+            heroText.innerText = heroData[index].text;
+
+            heroTag.style.opacity = 1;
+            heroTitle.style.opacity = 1;
+            heroText.style.opacity = 1;
+
+        }, 300);
+    }
+
+    function showSlide(index) {
+
+        slides.forEach(slide => {
+            slide.classList.remove('active');
+        });
+
+        dots.forEach(dot => {
+            dot.classList.remove('active');
+        });
+
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+
+        updateHeroContent(index);
+
+        current = index;
+    }
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            showSlide(index);
+        });
+    });
+
+    window.addEventListener('wheel', (event) => {
+
+        if(event.deltaY > 0) {
+            current++;
+        }
+        else {
+            current--;
+        }
+
+        if(current >= slides.length) {
+            current = 0;
+        }
+
+        if(current < 0) {
+            current = slides.length - 1;
+        }
+
+        showSlide(current);
+    });
+
+    setInterval(() => {
+
+        current++;
+
+        if(current >= slides.length) {
+            current = 0;
+        }
+
+        showSlide(current);
+
+    }, 6000);
+</script>
+
+<script>
+
+    const header = document.querySelector('header');
+
+    window.addEventListener('scroll', () => {
+
+        if(window.scrollY > 50) {
+            header.classList.add('scrolled');
+        }
+        else {
+            header.classList.remove('scrolled');
+        }
+
+    });
+
+</script>
+
+<script>
+
+const counters = document.querySelectorAll('.counter');
+
+const speed = 200;
+
+counters.forEach(counter => {
+
+    const animate = () => {
+
+        const value = +counter.getAttribute('data-target');
+
+        const data = +counter.innerText;
+
+        const time = value / speed;
+
+        if(data < value) {
+
+            counter.innerText = Math.ceil(data + time);
+
+            setTimeout(animate, 10);
+
+        } else {
+
+            counter.innerText = value;
+
+        }
+
+    }
+
+    animate();
+
+});
+
+</script>
+
+<script>
+
+const reveals = document.querySelectorAll('.reveal');
+
+function revealOnScroll() {
+
+    reveals.forEach(element => {
+
+        const windowHeight = window.innerHeight;
+
+        const revealTop = element.getBoundingClientRect().top;
+
+        const revealPoint = 120;
+
+        if(revealTop < windowHeight - revealPoint) {
+
+            element.classList.add('active');
+
+        }
+
+    });
+
+}
+
+window.addEventListener('scroll', revealOnScroll);
+
+revealOnScroll();
+
+</script>
+
+<script>
+
+const menuToggle = document.querySelector('.menu-toggle');
+
+const nav = document.querySelector('header nav');
+
+const navLinks = document.querySelectorAll('header nav a');
+
+menuToggle.addEventListener('click', () => {
+
+    nav.classList.toggle('active');
+
+});
+
+navLinks.forEach(link => {
+
+    link.addEventListener('click', () => {
+
+        nav.classList.remove('active');
+
+    });
+
+});
+
+</script>
+
+<a href="https://wa.me/2588487374257"
+   class="whatsapp-float"
+   target="_blank">
+
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
+         alt="WhatsApp">
+
+</a>
+
+</body>
+</html>
